@@ -19,10 +19,7 @@ def image(data):
     def random_color():
         return random.random(), random.random(), random.random()
 
-    square_size = min(600 // cols, 600 // rows)
-
-    x_offset = (600 - square_size * cols) / 2
-    y_offset = (600 - square_size * rows) / 2
+    square_size = 600 // max(cols, rows)
 
     def render():
         glClear(GL_COLOR_BUFFER_BIT)
@@ -32,10 +29,10 @@ def image(data):
                 glColor3f(*random_color())
 
                 glBegin(GL_QUADS)
-                glVertex2f(j * square_size + x_offset, i * square_size + y_offset)
-                glVertex2f((j + 1) * square_size + x_offset, i * square_size + y_offset)
-                glVertex2f((j + 1) * square_size + x_offset, (i + 1) * square_size + y_offset)
-                glVertex2f(j * square_size + x_offset, (i + 1) * square_size + y_offset)
+                glVertex2f(j * square_size, i * square_size)
+                glVertex2f((j + 1) * square_size, i * square_size)
+                glVertex2f((j + 1) * square_size, (i + 1) * square_size)
+                glVertex2f(j * square_size, (i + 1) * square_size)
                 glEnd()
 
         glutSwapBuffers()
