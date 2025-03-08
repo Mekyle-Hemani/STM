@@ -1,6 +1,7 @@
 import tkinter
 
 customSensitivity = False
+sensitivity_ratio = 1.0
 
 displayData = [
     [11, 19, 15, 22, 18, 20, 24, 16, 14, 12, 17, 25, 21, 13, 23, 19],
@@ -17,7 +18,7 @@ displayData = [
 windowWidth, windowHeight = 1600, 900
 
 
-def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, customSens=False):
+def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, ratioDifference=1):
     def update_canvas():
         rows = len(data)
         cols = len(data[0])
@@ -33,11 +34,13 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
         for row in range(rows):
             for col in range(cols):
                 if data[row][col] > largest: largest = data[row][col]
-        colourRatio=255/largest
-
-        if customSens:
+        extra = (largest * sensitivity_ratio)
+        if (extra>0):
+            colourRatio = 255 / extra
+        else:
+            #Error
             pass
-        
+
         canvas.delete("all")
 
         for row in range(rows):
@@ -46,9 +49,9 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
                 y1 = offset_y + row * square_size
                 x2 = x1 + square_size
                 y2 = y1 + square_size
-                value = int(data[row][col]*colourRatio)
-                if value<0: value=0
-                if value>255: value=255
+                value = int(data[row][col] * colourRatio)
+                if value < 0: value = 0
+                if value > 255: value = 255
                 color = f'#FF{255-value:02x}{255-value:02x}'
                 canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
@@ -65,8 +68,18 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
         width, height = event.width, event.height
         update_canvas()
 
+    def keypress_event(event):
+        global sensitivity_ratio
+        if event.keysym == 'Up':
+            sensitivity_ratio += ratioDifference
+            update_canvas()
+        elif event.keysym == 'Down':
+            sensitivity_ratio -= ratioDifference
+            update_canvas()
+
     root.bind("<Configure>", resize_event)
+    root.bind("<KeyPress>", keypress_event)
     
     root.mainloop()
 
-display()
+display()  
