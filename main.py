@@ -1,8 +1,6 @@
 import importlib.util
 import subprocess
 import sys
-import recieve
-import imager
 import colourprint
 import time
 
@@ -21,6 +19,9 @@ def checkPackage(package):
         colourprint.print_colored(f"{package} is installed", colourprint.GREEN)
 
 checkPackage("tkinter")
+
+import recieve
+import imager
 
 def checkSubsystems():
     out=True
