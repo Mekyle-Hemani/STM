@@ -1,9 +1,11 @@
 import os
 import sys
+import subprocess
 
 def restartScript():
     print("Restarting the program...")
-    os.execv(sys.executable, ['python'] + sys.argv)
+    os.system("cls")
+    os.execv(sys.executable, [sys.executable] + sys.argv)
 
 if __name__ == "__main__":
     import os
