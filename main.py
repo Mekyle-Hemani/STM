@@ -52,4 +52,4 @@ if __name__ == "__main__":
 
             colourprint.print_colored(f"Starting imaging process at {getTime()}", color_code=colourprint.BLUE)
 
-            imager.image(recieve.data)
+            imager.display(recieve.data)

@@ -18,4 +18,3 @@ def checkElectronDistanceProcess():
 
     import random
     data = [[random.uniform(0, 5) for _ in range(90)] for _ in range(160)]
-    imager.display(data)
