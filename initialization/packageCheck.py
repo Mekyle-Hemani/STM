@@ -3,10 +3,13 @@ import sys
 import subprocess
 import colourprint
 
+import main
+
 def checkPip():
     try:
         subprocess.run(["sudo", "apt", "install", "-y", "python3-pip"], check=True)
         colourprint.print_colored("pip installed successfully!", colourprint.GREEN)
+        main.restartScript()
     except subprocess.CalledProcessError:
         colourprint.print_colored("Failed to install pip. Please install it manually.", colourprint.RED)
         exit()
@@ -33,6 +36,7 @@ def checkPackage(package):
 
             subprocess.run([sys.executable, "-m", "pip", "install", package], check=True)
             colourprint.print_colored(f"{package} is installed", colourprint.GREEN)
+            main.restartScript()
         else:
             colourprint.print_colored("Quiting... ", colourprint.RED)
             exit()

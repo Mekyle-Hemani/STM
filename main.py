@@ -1,45 +1,53 @@
-import initialization.initAll as initAll
+import os
+import sys
 
-if not initAll.checkAll():
-    print("Error during initialization")
-    exit()
+def restartScript():
+    print("Restarting the program...")
+    os.execv(sys.executable, ['python'] + sys.argv)
 
-import recieve
-import imager
-import colourprint
-import time
-import serial
+if __name__ == "__main__":
+    import initialization.initAll as initAll
 
-def checkSubsystems():
-    out=True
-    if recieve.setup() == False:
-        colourprint.print_colored("STM communication failed", color_code=colourprint.RED)
-        out=False
-    else:
-        colourprint.print_colored("STM communication established", color_code=colourprint.BLUE)
+    if not initAll.checkAll():
+        print("Error during initialization")
+        exit()
 
-    time.sleep(3)
-    return out
+    import recieve
+    import imager
+    import colourprint
+    import time
+    import serial
 
-def startImaging():
-    return recieve.startSTM()
+    def checkSubsystems():
+        out=True
+        if recieve.setup() == False:
+            colourprint.print_colored("STM communication failed", color_code=colourprint.RED)
+            out=False
+        else:
+            colourprint.print_colored("STM communication established", color_code=colourprint.BLUE)
 
-def getTime(): return time.strftime("Date: %d-%m-%Y Time: %H:%M:%S", time.localtime())
-    
+        time.sleep(3)
+        return out
 
-if checkSubsystems():
-    colourprint.print_colored("STM subsystems ready", color_code=colourprint.GREEN)
-    if startImaging():
-        colourprint.print_colored(f"STM grabbing data process started at {getTime()}", color_code=colourprint.GREEN)
+    def startImaging():
+        return recieve.startSTM()
 
-        recieve.checkElectronDistanceProcess()
+    def getTime(): return time.strftime("Date: %d-%m-%Y Time: %H:%M:%S", time.localtime())
+        
 
-        while True:
-            if recieve.doneImage:
-                break
+    if checkSubsystems():
+        colourprint.print_colored("STM subsystems ready", color_code=colourprint.GREEN)
+        if startImaging():
+            colourprint.print_colored(f"STM grabbing data process started at {getTime()}", color_code=colourprint.GREEN)
 
-        colourprint.print_colored(f"STM done grabbing data at {getTime()}", color_code=colourprint.GREEN)
+            recieve.checkElectronDistanceProcess()
 
-        colourprint.print_colored(f"Starting imaging process at {getTime()}", color_code=colourprint.BLUE)
+            while True:
+                if recieve.doneImage:
+                    break
 
-        imager.image(recieve.data)
+            colourprint.print_colored(f"STM done grabbing data at {getTime()}", color_code=colourprint.GREEN)
+
+            colourprint.print_colored(f"Starting imaging process at {getTime()}", color_code=colourprint.BLUE)
+
+            imager.image(recieve.data)
