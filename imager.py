@@ -80,5 +80,3 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
     root.bind("<KeyPress>", keypress_event)
     
     root.mainloop()
-
-display()
