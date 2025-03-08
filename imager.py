@@ -1,7 +1,7 @@
 import tkinter
 
 customSensitivity = False
-sensitivity_ratio = 1.0
+sensitivityRatio = 1.0
 
 displayData = [
     [11, 19, 15, 22, 18, 20, 24, 16, 14, 12, 17, 25, 21, 13, 23, 19],
@@ -17,9 +17,9 @@ displayData = [
 
 windowWidth, windowHeight = 1600, 900
 
-
 def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, ratioDifference=1):
     def update_canvas():
+        global sensitivityRatio
         rows = len(data)
         cols = len(data[0])
         
@@ -34,11 +34,12 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
         for row in range(rows):
             for col in range(cols):
                 if data[row][col] > largest: largest = data[row][col]
-        extra = (largest * sensitivity_ratio)
+        extra = (largest * sensitivityRatio)
         if (extra>0):
             colourRatio = 255 / extra
         else:
-            #Error
+            print("Error")
+            sensitivityRatio+=ratioDifference
             colourRatio = 255
 
         canvas.delete("all")
@@ -69,12 +70,12 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
         update_canvas()
 
     def keypress_event(event):
-        global sensitivity_ratio
+        global sensitivityRatio
         if event.keysym == 'Up':
-            sensitivity_ratio += ratioDifference
+            sensitivityRatio += ratioDifference
             update_canvas()
         elif event.keysym == 'Down':
-            sensitivity_ratio -= ratioDifference
+            sensitivityRatio -= ratioDifference
             update_canvas()
 
     root.bind("<Configure>", resize_event)
@@ -82,4 +83,4 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
     
     root.mainloop()
 
-display()  
+display()
