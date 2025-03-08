@@ -8,6 +8,7 @@ import recieve
 import imager
 import colourprint
 import time
+import serial
 
 def checkSubsystems():
     out=True
