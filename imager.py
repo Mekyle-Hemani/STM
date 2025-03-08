@@ -39,7 +39,7 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
             colourRatio = 255 / extra
         else:
             #Error
-            pass
+            colourRatio = 255
 
         canvas.delete("all")
 
