@@ -6,6 +6,8 @@ def restartScript():
     os.execv(sys.executable, ['python'] + sys.argv)
 
 if __name__ == "__main__":
+    import os
+
     import initialization.initAll as initAll
 
     if not initAll.checkAll():
