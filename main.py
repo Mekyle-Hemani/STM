@@ -1,6 +1,9 @@
-import initialization.packageCheck as packageChecker
+import initialization.initAll as initAll
+import initialization.packageCheck
 
-packageChecker.checkPackage("tkinter")
+if not initAll.checkAll():
+    print("Error during initialization")
+    exit()
 
 import recieve
 import imager
