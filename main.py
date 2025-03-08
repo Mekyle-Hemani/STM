@@ -1,5 +1,4 @@
 import initialization.initAll as initAll
-import initialization.packageCheck
 
 if not initAll.checkAll():
     print("Error during initialization")
