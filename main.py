@@ -1,27 +1,11 @@
-import importlib.util
-import subprocess
-import sys
-import colourprint
-import time
+import initialization.packageCheck as packageChecker
 
-def checkPackage(package):
-    colourprint.print_colored(f"Verifying installation of {package}...", colourprint.YELLOW)
-    if importlib.util.find_spec(package) is None:
-        colourprint.print_colored(f"{package} is not installed. Do you want to install it? (y/n): ", colourprint.BLUE)
-        choice = input().strip().lower()
-        if choice == 'y':
-            subprocess.run([sys.executable, "-m", "pip", "install", package])
-            colourprint.print_colored(f"{package} is installed", colourprint.GREEN)
-        else:
-            colourprint.print_colored("Quiting... ", colourprint.RED)
-            exit()
-    else:
-        colourprint.print_colored(f"{package} is installed", colourprint.GREEN)
-
-checkPackage("tkinter")
+packageChecker.checkPackage("tkinter")
 
 import recieve
 import imager
+import colourprint
+import time
 
 def checkSubsystems():
     out=True
