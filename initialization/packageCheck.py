@@ -13,6 +13,15 @@ def checkPip():
 
 def checkPackage(package):
     colourprint.print_colored(f"Verifying installation of {package}...", colourprint.YELLOW)
+
+    if package == "tkinter":
+        try:
+            subprocess.run(["sudo", "apt", "install", "-y", "python3-tk"], check=True)
+            colourprint.print_colored("tkinter installed successfully!", colourprint.GREEN)
+        except subprocess.CalledProcessError:
+            colourprint.print_colored("Failed to install tkinter. Please install it manually.", colourprint.RED)
+        return
+
     if importlib.util.find_spec(package) is None:
         colourprint.print_colored(f"{package} is not installed. Do you want to install it? (y/n): ", colourprint.BLUE)
         choice = input().strip().lower()
