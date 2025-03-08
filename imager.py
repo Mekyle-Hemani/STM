@@ -15,8 +15,6 @@ displayData = [
     [21, 15, 22, 18, 17, 23, 12, 14, 24, 16, 19, 11, 20, 25, 13, 21]
 ]
 
-windowWidth, windowHeight = 1600, 900
-
 def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, ratioDifference=1):
     def update_canvas():
         global sensitivityRatio
@@ -60,7 +58,7 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
     root.title(title)
     
     canvas = tkinter.Canvas(root, width=width, height=height, bg="black")
-    canvas.pack()
+    canvas.pack(fill=tkinter.BOTH, expand=True)
 
     update_canvas()
 
