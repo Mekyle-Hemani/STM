@@ -5,8 +5,7 @@ import colourprint
 
 def checkPip():
     try:
-        subprocess.run([sys.executable, "-m", "ensurepip"], check=True)
-        subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"], check=True)
+        subprocess.run(["sudo", "apt", "install", "-y", "python3-pip"], check=True)
         colourprint.print_colored("pip installed successfully!", colourprint.GREEN)
     except subprocess.CalledProcessError:
         colourprint.print_colored("Failed to install pip. Please install it manually.", colourprint.RED)
