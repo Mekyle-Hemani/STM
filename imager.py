@@ -1,42 +1,72 @@
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
-import random
+import tkinter
 
-def setup():
-    return True
+customSensitivity = False
 
-def image(data):
-    rows = len(data)
-    cols = len(data[0])
+displayData = [
+    [11, 19, 15, 22, 18, 20, 24, 16, 14, 12, 17, 25, 21, 13, 23, 19],
+    [19, 25, 21, 17, 23, 12, 18, 14, 22, 15, 16, 24, 13, 20, 14, 11],
+    [12, 16, 14, 20, 25, 19, 13, 21, 15, 11, 22, 18, 23, 17, 24, 12],
+    [22, 18, 17, 23, 12, 14, 24, 16, 19, 25, 15, 21, 20, 11, 13, 22],
+    [14, 20, 25, 19, 13, 21, 15, 22, 18, 23, 17, 12, 16, 14, 11, 24],
+    [17, 23, 12, 14, 24, 16, 19, 11, 20, 25, 13, 21, 15, 22, 18, 17],
+    [25, 19, 13, 21, 15, 22, 18, 17, 23, 12, 14, 24, 16, 19, 11, 20],
+    [12, 14, 24, 16, 19, 11, 20, 25, 13, 21, 15, 22, 18, 17, 23, 12],
+    [21, 15, 22, 18, 17, 23, 12, 14, 24, 16, 19, 11, 20, 25, 13, 21]
+]
 
-    glutInit()
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
-    glutInitWindowSize(600, 600)
-    glutCreateWindow(b"STM Image")
-    glOrtho(0, 600, 0, 600, -1, 1)
+windowWidth, windowHeight = 1600, 900
 
-    def random_color():
-        return random.random(), random.random(), random.random()
 
-    square_size = 600 // max(cols, rows)
+def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, customSens=False):
+    def update_canvas():
+        rows = len(data)
+        cols = len(data[0])
+        
+        square_size = min(width/cols, height/rows)
+        draw_width = square_size * cols
+        draw_height = square_size * rows
+        
+        offset_x = (width - draw_width)/2
+        offset_y = (height - draw_height)/2
 
-    def render():
-        glClear(GL_COLOR_BUFFER_BIT)
+        largest = float(0)
+        for row in range(rows):
+            for col in range(cols):
+                if data[row][col] > largest: largest = data[row][col]
+        colourRatio=255/largest
 
-        for i in range(rows):
-            for j in range(cols):
-                glColor3f(*random_color())
+        if customSens:
+            pass
+        
+        canvas.delete("all")
 
-                glBegin(GL_QUADS)
-                glVertex2f(j * square_size, i * square_size)
-                glVertex2f((j + 1) * square_size, i * square_size)
-                glVertex2f((j + 1) * square_size, (i + 1) * square_size)
-                glVertex2f(j * square_size, (i + 1) * square_size)
-                glEnd()
+        for row in range(rows):
+            for col in range(cols):
+                x1 = offset_x + col * square_size
+                y1 = offset_y + row * square_size
+                x2 = x1 + square_size
+                y2 = y1 + square_size
+                value = int(data[row][col]*colourRatio)
+                if value<0: value=0
+                if value>255: value=255
+                color = f'#FF{255-value:02x}{255-value:02x}'
+                canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
-        glutSwapBuffers()
+    root = tkinter.Tk()
+    root.title(title)
+    
+    canvas = tkinter.Canvas(root, width=width, height=height, bg="black")
+    canvas.pack()
 
-    glutDisplayFunc(render)
+    update_canvas()
 
-    glutMainLoop()
+    def resize_event(event):
+        nonlocal width, height
+        width, height = event.width, event.height
+        update_canvas()
+
+    root.bind("<Configure>", resize_event)
+    
+    root.mainloop()
+
+display()
