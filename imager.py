@@ -16,7 +16,7 @@ displayData = [
 ]
 
 def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=400, ratioDifference=1):
-    def update_canvas():
+    def updateCanvas():
         global sensitivityRatio
         rows = len(data)
         cols = len(data[0])
@@ -60,24 +60,24 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
     canvas = tkinter.Canvas(root, width=width, height=height, bg="black")
     canvas.pack(fill=tkinter.BOTH, expand=True)
 
-    update_canvas()
+    updateCanvas()
 
-    def resize_event(event):
+    def resizeEvent(event):
         nonlocal width, height
         if event.width != width or event.height != height:
             width, height = event.width, event.height
-            update_canvas()
+            updateCanvas()
 
-    def keypress_event(event):
+    def keypressEvent(event):
         global sensitivityRatio
         if event.keysym == 'Up':
             sensitivityRatio += ratioDifference
-            update_canvas()
+            updateCanvas()
         elif event.keysym == 'Down':
             sensitivityRatio -= ratioDifference
-            update_canvas()
+            updateCanvas()
 
-    root.bind("<Configure>", resize_event)
-    root.bind("<KeyPress>", keypress_event)
+    root.bind("<Configure>", resizeEvent)
+    root.bind("<KeyPress>", keypressEvent)
     
     root.mainloop()
