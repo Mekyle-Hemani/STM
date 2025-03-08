@@ -64,8 +64,9 @@ def display(data=[[6,9],[5,9]], title="STM Imaging Result", width=400, height=40
 
     def resize_event(event):
         nonlocal width, height
-        width, height = event.width, event.height
-        update_canvas()
+        if event.width != width or event.height != height:
+            width, height = event.width, event.height
+            update_canvas()
 
     def keypress_event(event):
         global sensitivityRatio
