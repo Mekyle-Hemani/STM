@@ -22,7 +22,7 @@ def checkPackage(package):
                 checkPip()
             colourprint.print_colored("pip is installed", colourprint.GREEN)
 
-            subprocess.run([sys.executable, "-m", "pip", "install", package])
+            subprocess.run([sys.executable, "-m", "pip", "install", package], check=True)
             colourprint.print_colored(f"{package} is installed", colourprint.GREEN)
         else:
             colourprint.print_colored("Quiting... ", colourprint.RED)
