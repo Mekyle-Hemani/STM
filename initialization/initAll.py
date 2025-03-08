@@ -1,6 +1,8 @@
 import initialization.packageCheck
 
 def checkAll():
+    dependencies = ["tkinter", "serial"]
     result=True
-    initialization.packageCheck.checkPackage("tkinter")
+    for item in dependencies:
+        initialization.packageCheck.checkPackage(item)
     return result
